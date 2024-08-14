@@ -9,12 +9,6 @@ export const registerController =async(req,res) =>{
         if(!firstName){
             return res.send({message:'FirstName is Required'})
         }
-        if(!lastName){
-            return res.send({message:'lastName is Required'})
-        }
-        if(!dob){
-            return res.send({message:'dob is Required'})
-        }
         if(!gender){
             return res.send({message:'gender is Required'})
         }
