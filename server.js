@@ -28,7 +28,7 @@ app.use("/api/v1/auth", authRoute);
 // //rest api
 app.get('/',(req,res)=>{
     res.send(
-        "<h1>Welcomw to ecommerce app</h1>"
+        "<h1>Welcome to Burger Shop</h1>"
     )
 })
 //PORT
