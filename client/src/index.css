@@ -42,12 +42,12 @@
   font-family: "Play", sans-serif;
   font-weight: 400;
   font-style: normal;
-  position: absolute;
+  /* position: absolute; */
   top: 0;
   left: 0;
   width: 100%;
   z-index: 2; /* Make sure it's above the image */
-  background-color: rgba(0, 0, 0, 0); /* Semi-transparent background */
+  /* Semi-transparent background */
   padding: 10px 20px;
 }
 
@@ -105,4 +105,27 @@
 }
 .card-footer a:hover {
     color: red !important;
+}
+
+
+/* =================================
+======== page not found css ======= */
+
+
+.pnf {
+  display: flex;
+  min-height: 65vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =================================
+======== register page css ======= */
+.register{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  flex-direction: column;
 }

@@ -1,10 +1,13 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { FaBurger } from "react-icons/fa6";
-const Navbar = () => {
+const Navbar = ({ backgroundColor, textColor, linkColor, position }) => {
   return (
     <>
-      <nav className="navbar navbar-expand-lg ">
+      <nav
+        className="navbar navbar-expand-lg "
+        style={{ backgroundColor: backgroundColor, position: position }}
+      >
         <div className="container-fluid">
           <button
             className="navbar-toggler"
@@ -30,6 +33,15 @@ const Navbar = () => {
                   to="/"
                 >
                   Home
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  className="nav-link  text-white"
+                  aria-current="page"
+                  to="/menu"
+                >
+                  Menu
                 </NavLink>
               </li>
               <li className="nav-item">
