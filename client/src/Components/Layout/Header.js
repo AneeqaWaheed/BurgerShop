@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 const Header = () => {
   return (
     <>
-      <Navbar />
+      <Navbar position="absolute" />
       <section className="header-section">
         <img
           src="/Images/header1.jpg"
