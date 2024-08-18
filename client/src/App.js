@@ -5,6 +5,7 @@ import Contact from "./Pages/Contact";
 import PageNotFound from "./Pages/PageNotFound";
 import Menu from "./Pages/Menu";
 import Register from "./Pages/Auth/Register";
+import Login from "./Pages/Auth/Login";
 function App() {
   return (
     <>
@@ -14,6 +15,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>

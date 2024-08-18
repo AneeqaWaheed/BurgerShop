@@ -1,7 +1,24 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { FaBurger } from "react-icons/fa6";
+import { useAuth } from "../../context/auth";
+import { toast } from "react-toastify";
 const Navbar = ({ backgroundColor, textColor, linkColor, position }) => {
+  const [auth, setAuth] = useAuth();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    toast.success("Logout Successfully");
+    setAuth({
+      ...auth,
+      user: null,
+      token: "",
+    });
+
+    localStorage.removeItem("auth");
+    setTimeout(() => {
+      navigate("/login");
+    }, 1000);
+  };
   return (
     <>
       <nav
@@ -56,20 +73,26 @@ const Navbar = ({ backgroundColor, textColor, linkColor, position }) => {
               </li>
             </ul>
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <NavLink
-                  className="nav-link  text-white"
-                  aria-current="page"
-                  to="/register"
-                >
-                  Register
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link text-white" to="/login">
-                  Login
-                </NavLink>
-              </li>
+              {!auth.user ? (
+                <>
+                  <li className="nav-item">
+                    <NavLink className="nav-link text-white" to="/login">
+                      Sign Up / Login
+                    </NavLink>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    <NavLink
+                      onClick={handleLogout}
+                      className="nav-link text-white"
+                    >
+                      Logout
+                    </NavLink>
+                  </li>
+                </>
+              )}
               <li className="nav-item">
                 <NavLink className="nav-link text-white" to="/cart">
                   Cart(0)
