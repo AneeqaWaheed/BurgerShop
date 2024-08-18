@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import GeneralLayout from "../../Components/Layout/GeneralLayout";
 import "../../styles/register.css";
 
@@ -172,6 +172,14 @@ const Register = () => {
             <button type="submit" className="btn btn-danger">
               Submit
             </button>
+            <div className="container mt-3">
+              <p>
+                Already have an account?{" "}
+                <Link to="/login" className="text-danger fw-semibold">
+                  Sign In
+                </Link>
+              </p>
+            </div>
           </form>
         </div>
         <div className="register-image">

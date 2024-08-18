@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import GeneralLayout from "../../Components/Layout/GeneralLayout";
 import "../../styles/register.css";
+import { useAuth } from "../../context/auth";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
   //form submission
   const handleSubmit = async (e) => {
@@ -19,9 +20,15 @@ const Login = () => {
       );
       if (res.data.success) {
         toast.success(res.data.message);
+        setAuth({
+          ...auth,
+          user: res.data.user,
+          token: res.data.token,
+        });
+        localStorage.setItem("auth", JSON.stringify(res.data));
         setTimeout(() => {
           navigate("/");
-        }, 2000);
+        }, 1000);
       } else {
         toast.error(res.data.message);
       }
@@ -77,6 +84,14 @@ const Login = () => {
             <button type="submit" className="btn btn-danger">
               Submit
             </button>
+            <div className="container mt-3">
+              <p>
+                Don't have an account?{" "}
+                <Link to="/register" className="text-danger fw-semibold">
+                  Sign Up
+                </Link>
+              </p>
+            </div>
           </form>
         </div>
         <div className="register-image">
