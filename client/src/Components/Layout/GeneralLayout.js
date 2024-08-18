@@ -4,7 +4,14 @@ import Navbar from "./Navbar";
 import { Helmet } from "react-helmet";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const GeneralLayout = ({ children, title, description, keywords, author }) => {
+const GeneralLayout = ({
+  children,
+  title,
+  description,
+  keywords,
+  author,
+  minHeight,
+}) => {
   return (
     <div>
       <Helmet>
@@ -15,7 +22,7 @@ const GeneralLayout = ({ children, title, description, keywords, author }) => {
         <title>{title}</title>
       </Helmet>
       <Navbar backgroundColor="#000000" />
-      <main style={{ minHeight: "80vh" }}>
+      <main style={{ minHeight: minHeight }}>
         <ToastContainer />
         {children}
       </main>
@@ -26,6 +33,7 @@ const GeneralLayout = ({ children, title, description, keywords, author }) => {
 
 GeneralLayout.defaultProps = {
   title: "BurgerShop",
+  minHeight: "80vh",
   description: "Burger Shop for killing your hunger",
   keywords: "Burger, ecommerce, food, fast food, hunger",
   author: "Aneeqa Waheed",

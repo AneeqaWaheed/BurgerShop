@@ -3,6 +3,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import GeneralLayout from "../../Components/Layout/GeneralLayout";
+import "../../styles/register.css";
+
 const Register = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -10,7 +12,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [gender, setGender] = useState("");
   const navigate = useNavigate();
-  // form submission
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -28,114 +30,153 @@ const Register = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something went Wrong");
+      toast.error("Something went wrong");
     }
   };
+
   return (
     <GeneralLayout>
-      <div className="register">
-        <h1>Register</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <input
-              type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              className="form-control"
-              id="exampleInputEmail1"
-              placeholder="Enter Your Name"
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              className="form-control"
-              id="exampleInputEmail1"
-              placeholder="Enter Your Last Name"
-              required
-            />
-          </div>
-
-          <div className="mb-3">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="form-control"
-              id="exampleInputEmail1"
-              placeholder="Enter Your Email"
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="form-control"
-              id="exampleInputPassword1"
-              placeholder="Enter Your Password"
-              required
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="exampleInputPassword1" className="form-label">
-              Gender
-            </label>
-            <div>
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="flexRadioDefault"
-                  value="male"
-                  onChange={(e) => setGender(e.target.value)}
-                  id="flexRadioDefault1"
-                  required
-                />
-                <label className="form-check-label" htmlFor="flexRadioDefault1">
-                  Male
-                </label>
-              </div>
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="flexRadioDefault"
-                  value="female"
-                  onChange={(e) => setGender(e.target.value)}
-                  id="flexRadioDefault2"
-                  required
-                />
-                <label className="form-check-label" htmlFor="flexRadioDefault2">
-                  Female
-                </label>
-              </div>
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="flexRadioDefault"
-                  value="other"
-                  onChange={(e) => setGender(e.target.value)}
-                  id="flexRadioDefault3"
-                  required
-                />
-                <label className="form-check-label" htmlFor="flexRadioDefault3">
-                  Other
-                </label>
+      <div className="register-container">
+        <div className="register-form">
+          <h1 className="text-center my-4 text-danger">Registration Form</h1>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label
+                htmlFor="firstName"
+                className="form-label text-danger fw-semibold my-0 ms-1 fs-5"
+              >
+                First Name
+              </label>
+              <input
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                className="form-control px-3"
+                id="firstName"
+                placeholder="Enter Your Name"
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label
+                htmlFor="lastName"
+                className="form-label text-danger fw-semibold my-0 ms-1 fs-5"
+              >
+                Last Name
+              </label>
+              <input
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                className="form-control"
+                id="lastName"
+                placeholder="Enter Your Last Name"
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label
+                htmlFor="email"
+                className="form-label text-danger fw-semibold my-0 ms-1 fs-5"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="form-control"
+                id="email"
+                placeholder="Enter Your Email"
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label
+                htmlFor="password"
+                className="form-label text-danger fw-semibold my-0 ms-1 fs-5"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="form-control"
+                id="password"
+                placeholder="Enter Your Password"
+                required
+              />
+            </div>
+            <div className="mb-3 gender-container">
+              <label
+                htmlFor="gender"
+                className="form-label text-danger fw-semibold my-0 ms-1 fs-5 mb-3"
+              >
+                Gender
+              </label>
+              <div>
+                <div className="form-check form-check-inline">
+                  <input
+                    className="mx-2"
+                    type="radio"
+                    name="gender"
+                    value="male"
+                    onChange={(e) => setGender(e.target.value)}
+                    id="genderMale"
+                    required
+                  />
+                  <label
+                    className="form-check-label radio-label"
+                    htmlFor="genderMale"
+                  >
+                    Male
+                  </label>
+                </div>
+                <div className="form-check form-check-inline">
+                  <input
+                    className="mx-2"
+                    type="radio"
+                    name="gender"
+                    value="female"
+                    onChange={(e) => setGender(e.target.value)}
+                    id="genderFemale"
+                    required
+                  />
+                  <label
+                    className="form-check-label radio-label"
+                    htmlFor="genderFemale"
+                  >
+                    Female
+                  </label>
+                </div>
+                <div className="form-check form-check-inline">
+                  <input
+                    className="mx-2"
+                    type="radio"
+                    name="gender"
+                    value="other"
+                    onChange={(e) => setGender(e.target.value)}
+                    id="genderOther"
+                    required
+                  />
+                  <label
+                    className="form-check-label radio-label"
+                    htmlFor="genderOther"
+                  >
+                    Other
+                  </label>
+                </div>
               </div>
             </div>
-          </div>
-
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
+            <button type="submit" className="btn btn-danger">
+              Submit
+            </button>
+          </form>
+        </div>
+        <div className="register-image">
+          <img src="/Images/register.png" alt="Registration Illustration" />
+        </div>
       </div>
     </GeneralLayout>
   );
