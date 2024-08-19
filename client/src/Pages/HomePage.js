@@ -1,12 +1,16 @@
 import React from "react";
 import Layout from "../Components/Layout/Layout";
-import { useAuth } from "../context/auth";
+import HomeSection1 from "../Components/HomeSection1.js";
+import BurgerCategories from "../Components/BurgerCategories.js";
+import Contact from "../Components/Contact.js";
+import ClientSays from "../Components/ClientSays.js";
 const HomePage = () => {
-  const [auth, setAuth] = useAuth();
   return (
     <Layout title="Home">
-      <h1>HomePage</h1>
-      <pre>{JSON.stringify(auth, null, 4)}</pre>
+      <HomeSection1 />
+      <BurgerCategories />
+      <ClientSays />
+      <Contact />
     </Layout>
   );
 };
