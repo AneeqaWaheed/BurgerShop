@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import GeneralLayout from "../../Components/Layout/GeneralLayout";
 import "../../styles/register.css";
 import { useAuth } from "../../context/auth";
@@ -10,6 +10,9 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
+
+  const location = useLocation();
+
   //form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,7 +30,7 @@ const Login = () => {
         });
         localStorage.setItem("auth", JSON.stringify(res.data));
         setTimeout(() => {
-          navigate("/");
+          navigate(location.state || "/");
         }, 1000);
       } else {
         toast.error(res.data.message);
@@ -38,7 +41,7 @@ const Login = () => {
     }
   };
   return (
-    <GeneralLayout>
+    <GeneralLayout title={"Login - BurgerShop"}>
       <div className="register-container">
         <div className="register-form">
           <h1 className="text-center my-4 text-danger">Login Form</h1>
