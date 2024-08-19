@@ -18,7 +18,6 @@ const Header = () => {
           </button>
         </div>
       </section>
-      <section></section>
     </>
   );
 };
