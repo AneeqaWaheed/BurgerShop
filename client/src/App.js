@@ -6,16 +6,23 @@ import PageNotFound from "./Pages/PageNotFound";
 import Menu from "./Pages/Menu";
 import Register from "./Pages/Auth/Register";
 import Login from "./Pages/Auth/Login";
+import Cart from "./Pages/Cart";
+import Dashboard from "./Pages/User/Dashboard";
+import PrivateRoute from "./Components/Routes/Private";
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/dashboard" element={<PrivateRoute />}>
+          <Route path="" element={<Dashboard />} />
+        </Route>
         <Route path="/menu" element={<Menu />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
