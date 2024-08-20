@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate, Link, useLocation } from "react-router-dom";
 import GeneralLayout from "../../Components/Layout/GeneralLayout";
 import "../../styles/register.css";
+
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const navigate = useNavigate();
-  //form submission
+
+  // Form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -17,17 +17,27 @@ const ForgotPassword = () => {
       );
       if (res.data.success) {
         toast.success(res.data.message);
-        setTimeout(() => {
-          navigate("/login");
-        }, 1000);
       } else {
         toast.error(res.data.message);
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Something went Wrong");
+      if (error.response) {
+        // If error.response exists, it means the server responded with an error
+        if (error.response.status === 404) {
+          toast.error("User not found");
+        } else {
+          toast.error(
+            error.response.data.message || "An unexpected error occurred"
+          );
+        }
+      } else {
+        // If error.response does not exist, it could be a network error or something else
+        console.error("Error:", error.message);
+        toast.error("Something went wrong. Please try again later.");
+      }
     }
   };
+
   return (
     <GeneralLayout title={"ForgotPassword - BurgerShop"}>
       <div className="register-container">
@@ -50,7 +60,7 @@ const ForgotPassword = () => {
                 placeholder="Enter Your Email"
                 required
               />
-              <div id="emailHelp" class="form-text">
+              <div id="emailHelp" className="form-text">
                 We'll never share your email with anyone else.
               </div>
             </div>

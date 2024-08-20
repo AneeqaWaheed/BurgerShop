@@ -83,14 +83,27 @@ const Navbar = ({ backgroundColor, textColor, linkColor, position }) => {
                 </>
               ) : (
                 <>
-                  <li className="nav-item">
-                    <NavLink
-                      onClick={handleLogout}
-                      className="nav-link text-white"
+                  <div class="dropdown">
+                    <button
+                      class="btn dropdown-toggle text-white"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
                     >
-                      Logout
-                    </NavLink>
-                  </li>
+                      {auth?.user?.firstName + " " + auth?.user?.lastName}
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        {" "}
+                        <NavLink
+                          onClick={handleLogout}
+                          className="nav-link text-dark"
+                        >
+                          Logout
+                        </NavLink>
+                      </li>
+                    </ul>
+                  </div>
                 </>
               )}
               <li className="nav-item">
