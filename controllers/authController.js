@@ -112,9 +112,12 @@ export const forgotPassword = async (req, res) => {
   try {
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      console.log("User not found for email:", email);
+      return res.status(404).send({
+        success: false,
+        message: "Email is not registered ",
+      });
     }
-
     user.resetPasswordToken = crypto.randomBytes(20).toString("hex");
     user.resetPasswordExpires = Date.now() + 3600000; // Expires in 1 hour
     await user.save();
@@ -133,14 +136,14 @@ export const forgotPassword = async (req, res) => {
     transport.sendMail(mailOptions, (err) => {
       if (err) {
         console.error("there was an error: ", err);
-        return res.status(500).json({ message: "Error sending email" });
+        return res.status(500).send({ message: "Error sending email" });
       }
       res
         .status(200)
-        .json({ success: true, message: "Password reset link sent" });
+        .send({ success: true, message: "Password reset link sent" });
     });
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).send({ message: "Server error" });
   }
 };
 
