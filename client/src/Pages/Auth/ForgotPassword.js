@@ -4,33 +4,21 @@ import axios from "axios";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import GeneralLayout from "../../Components/Layout/GeneralLayout";
 import "../../styles/register.css";
-import { useAuth } from "../../context/auth";
-const Login = () => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
-
-  const location = useLocation();
-
   //form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `${process.env.React_App_API}/api/v1/auth/login`,
-        { email, password }
+        `${process.env.React_App_API}/api/v1/auth/forgot-password`,
+        { email }
       );
       if (res.data.success) {
         toast.success(res.data.message);
-        setAuth({
-          ...auth,
-          user: res.data.user,
-          token: res.data.token,
-        });
-        localStorage.setItem("auth", JSON.stringify(res.data));
         setTimeout(() => {
-          navigate(location.state || "/");
+          navigate("/login");
         }, 1000);
       } else {
         toast.error(res.data.message);
@@ -41,10 +29,10 @@ const Login = () => {
     }
   };
   return (
-    <GeneralLayout title={"Login - BurgerShop"}>
+    <GeneralLayout title={"ForgotPassword - BurgerShop"}>
       <div className="register-container">
         <div className="register-form">
-          <h1 className="text-center my-4 text-danger">Login Form</h1>
+          <h1 className="text-center my-4 text-danger">Forgot Password</h1>
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label
@@ -66,43 +54,10 @@ const Login = () => {
                 We'll never share your email with anyone else.
               </div>
             </div>
-            <div className="mb-3">
-              <label
-                htmlFor="password"
-                className="form-label text-danger fw-semibold my-0 ms-1 fs-5"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="form-control"
-                id="password"
-                placeholder="Enter Your Password"
-                required
-              />
-            </div>
 
             <button type="submit" className="btn btn-danger">
-              Submit
+              Send Email
             </button>
-
-            <div className="container mt-3">
-              <p>
-                Don't have an account?{" "}
-                <Link to="/register" className="text-danger fw-semibold">
-                  Sign Up
-                </Link>
-                <br />
-                <Link
-                  to="/forgot-password"
-                  className="text-danger fw-semibold "
-                >
-                  Forgot Password?
-                </Link>
-              </p>
-            </div>
           </form>
         </div>
         <div className="register-image">
@@ -113,4 +68,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;
