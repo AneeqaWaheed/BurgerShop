@@ -15,9 +15,8 @@ const Navbar = ({ backgroundColor, textColor, linkColor, position }) => {
     });
 
     localStorage.removeItem("auth");
-    setTimeout(() => {
-      navigate("/login");
-    }, 1000);
+
+    navigate("/login");
   };
   return (
     <>
@@ -94,9 +93,19 @@ const Navbar = ({ backgroundColor, textColor, linkColor, position }) => {
                     </button>
                     <ul class="dropdown-menu">
                       <li>
-                        {" "}
+                        <NavLink
+                          to={`/dashboard/${
+                            auth?.user?.role === 1 ? "admin" : "user"
+                          }`}
+                          className="nav-link text-dark"
+                        >
+                          DashBoard
+                        </NavLink>
+                      </li>
+                      <li>
                         <NavLink
                           onClick={handleLogout}
+                          to="/login"
                           className="nav-link text-dark"
                         >
                           Logout
