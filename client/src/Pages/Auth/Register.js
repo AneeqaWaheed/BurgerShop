@@ -22,9 +22,8 @@ const Register = () => {
       );
       if (res.data.success) {
         toast.success(res.data.message);
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000);
+
+        navigate("/login");
       } else {
         toast.error(res.data.message);
       }
