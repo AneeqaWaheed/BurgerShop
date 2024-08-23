@@ -3,6 +3,7 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import { FaBurger } from "react-icons/fa6";
 import { useAuth } from "../../context/auth";
 import { toast } from "react-toastify";
+import "../../styles/navbar.css";
 const Navbar = ({ backgroundColor, textColor, linkColor, position }) => {
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
