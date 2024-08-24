@@ -53,8 +53,7 @@ export const createProductController = async (req, res) => {
 export const getProductController = async (req, res) => {
   try {
     const products = await Product.find({})
-      .populate("categories")
-      .select("-images")
+      .populate("category")
       .limit(12)
       .sort({ createdAt: -1 });
     res.status(200).send({
@@ -77,7 +76,7 @@ export const singleProductController = async (req, res) => {
   try {
     const product = await Product.findOne({ id: req.body.id })
       .select("-images")
-      .populate("categories");
+      .populate("category");
     res.status(200).send({
       success: true,
       message: "Single Category Successfully",
@@ -95,7 +94,7 @@ export const singleProductController = async (req, res) => {
 //get Product Image
 export const productImageController = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.pid).select("images");
+    const product = await Product.findById(req.params.pid).select("image");
     // console.log(product)
     if (!product) {
       return res
@@ -103,7 +102,7 @@ export const productImageController = async (req, res) => {
         .send({ success: false, message: "Product not found" });
     }
     console.log("Image");
-    const image = product.images.data;
+    const image = product.image.data;
     //res.set('Content-type', product.images.contentType);
     return res.status(200).send({
       image,
@@ -122,10 +121,11 @@ export const productImageController = async (req, res) => {
 export const deleteProductController = async (req, res) => {
   try {
     const { id } = req.params;
-    await Product.findByIdAndDelete(id);
+    const product = await Product.findByIdAndDelete(id);
     res.status(200).send({
       success: true,
       message: "Product Deleted Successfully",
+      product,
     });
   } catch (error) {
     console.log(error);
@@ -140,46 +140,29 @@ export const deleteProductController = async (req, res) => {
 //update Product
 export const updateProductController = async (req, res) => {
   try {
-    const {
-      title,
-      description,
-      price,
-      discountPrice,
-      categories,
-      stock,
-      colors,
-      sizes,
-      published,
-      shipping,
-    } = req.fields;
-    const { images } = req.files;
-    switch (true) {
-      case !title:
-        return res.status(500).send({ error: "title is required" });
-      case !categories:
-        return res.status(500).send({ error: "categories is required" });
-      case !price:
-        return res.status(500).send({ error: "price is required" });
-      case !images && images.size > 1000000:
-        return res.status(500).send({ error: "images is required" });
+    const { prId } = req.params;
+    const ProductId = await Product.findById(prId);
+    console.log(ProductId);
+    if (!ProductId) {
+      return res
+        .status(404)
+        .send({ status: "failed", message: "Product not found" });
     }
-    const products = await Product.findByIdAndUpdate(
-      req.params.pid,
-      {
-        ...req.fields,
-      },
-      { new: true }
-    );
-    if (images) {
-      products.images.data = fs.readFileSync(images.path);
-      products.images.contentType = images.type;
-    }
-    await products.save();
-    res.status(201).send({
-      success: true,
-      message: "Product updated Successfullly",
-      products,
+
+    // Modify updateData to include tripId
+    const updateData = { ...req.body, _id: prId };
+    delete updateData._id; // Remove _id if it exists in req.body
+
+    const updatedProduct = await Product.findByIdAndUpdate(prId, updateData, {
+      new: true,
     });
+
+    res.status(200).send({
+      status: "success",
+      message: "Product updated successfully",
+      data: updatedProduct,
+    });
+    console.log(updatedProduct);
   } catch (error) {
     console.log(error);
     res.status(500).send({
