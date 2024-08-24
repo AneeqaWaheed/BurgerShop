@@ -27,13 +27,15 @@ router.post("/create-product", requireSignIn, isAdmin, createProductController);
 //   updateProductController
 // );
 // //get products
-// router.get("/get-product", getProductController);
+router.get("/get-product", getProductController);
 // //get single product
-// router.get("/single-product/:id", singleProductController);
+router.get("/single-product/:id", singleProductController);
 // //get product image
-// router.get("/product-image/:pid", productImageController);
+router.get("/product-image/:pid", productImageController);
 // //get delete
-// router.delete("/delete-product/:id", deleteProductController);
+router.delete("/delete-product/:id", deleteProductController);
+// update product
+router.put("/update-product/:prId", updateProductController);
 // //filter product
 // router.get("/product-filters", productFilterController);
 // //product count
