@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./Pages/HomePage";
 import About from "./Pages/About";
-import Contact from "./Pages/Contact";
 import PageNotFound from "./Pages/PageNotFound";
 import Menu from "./Pages/Menu";
 import Register from "./Pages/Auth/Register";
@@ -18,6 +17,7 @@ import CreateProduct from "./Pages/Admin/CreateProduct";
 import Users from "./Pages/Admin/Users";
 import Orders from "./Pages/User/Orders";
 import Profile from "./Pages/User/Profile";
+import ContactPage from "./Pages/ContactPage";
 function App() {
   return (
     <>
@@ -36,7 +36,7 @@ function App() {
         </Route>
         <Route path="/menu" element={<Menu />} />
         <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />

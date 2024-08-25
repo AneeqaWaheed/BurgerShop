@@ -6,7 +6,7 @@ const UserMenu = () => {
     <>
       <div className="text-center">
         <div class="list-group">
-          <h4>Admin Panel</h4>
+          <h4>User Panel</h4>
           <div>
             <NavLink
               to="/dashboard/user/profile"

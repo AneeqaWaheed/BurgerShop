@@ -2,7 +2,7 @@ import React from "react";
 import Layout from "../Components/Layout/Layout";
 import HomeSection1 from "../Components/HomeSection1.js";
 import BurgerCategories from "../Components/BurgerCategories.js";
-import Contact from "../Components/Contact.js";
+import ContactForm from "../Components/ContactForm.js";
 import ClientSays from "../Components/ClientSays.js";
 import { Link } from "react-router-dom";
 const HomePage = () => {
@@ -18,7 +18,7 @@ const HomePage = () => {
       />
       <BurgerCategories />
       <ClientSays />
-      <Contact />
+      <ContactForm />
     </Layout>
   );
 };
