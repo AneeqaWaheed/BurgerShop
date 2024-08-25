@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/contact.css";
-const Contact = () => {
+const ContactForm = () => {
   return (
     <>
       <div className="overflow-x-hidden story-container my-4">
@@ -69,4 +69,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default ContactForm;
