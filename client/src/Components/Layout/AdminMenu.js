@@ -6,7 +6,7 @@ const AdminMenu = () => {
     <>
       <div className="text-center">
         <div class="list-group">
-          <h4>Admin Panel</h4>
+          <h4 className="text-white">Admin Panel</h4>
           <div>
             <NavLink
               to="/dashboard/admin/create-category"
