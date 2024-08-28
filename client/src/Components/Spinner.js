@@ -17,9 +17,7 @@ const Spinner = ({ path = "login" }) => {
   return (
     <>
       <div className="d-flex justify-content-center align-items-center vh-100 flex-column">
-        <h4 className="text-danger">
-          Redirecting you to Login in {count} seconds
-        </h4>
+        <h4 className="text-danger">Redirecting you in {count} seconds</h4>
         <div className="spinner-border text-danger" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>

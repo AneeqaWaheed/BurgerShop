@@ -14,7 +14,7 @@ const ContactPage = () => {
         </p>
       </div>
       <div className="container d-flex justify-content-end">
-        <img src="Images/contact.jpg" alt="" width={"150px"} height={"150px"} />
+        <img src="Images/contact.jpg" alt="" width={"200px"} height={"200px"} />
       </div>
 
       <ContactForm />
