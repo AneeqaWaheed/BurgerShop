@@ -16,6 +16,7 @@ const CategoryForm = ({ handleSubmit, value, setValue }) => {
             placeholder="i.e zinger"
             value={value}
             onChange={(e) => setValue(e.target.value)}
+            required
           />
         </div>
 

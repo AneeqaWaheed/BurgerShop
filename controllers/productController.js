@@ -3,7 +3,10 @@ import fs from "fs";
 //create product
 export const createProductController = async (req, res) => {
   try {
+    console.log("bamns", req.body);
     const { name, description, price, category, image } = req.body;
+
+    // Check if the fields are provided
     if (!name) {
       return res.send({ message: "Name is Required" });
     }
@@ -19,25 +22,28 @@ export const createProductController = async (req, res) => {
     if (!image) {
       return res.send({ message: "Image is Required" });
     }
-    //check user
+
+    // Check if product already exists
     const existingProduct = await Product.findOne({ name });
     if (existingProduct) {
       return res.status(200).send({
         success: false,
-        message: "Product already exist please add another one",
+        message: "Product already exists, please add another one",
       });
     }
-    //save
+
+    // Save the product
     const product = await new Product({
       name,
       description,
       price,
       category,
-      image,
+      image, // Make sure you're storing the image URL here
     }).save();
+
     res.status(201).send({
       success: true,
-      message: "Prouct added SuccessFully",
+      message: "Product added successfully",
       product,
     });
   } catch (error) {
@@ -49,6 +55,7 @@ export const createProductController = async (req, res) => {
     });
   }
 };
+
 //get Products
 export const getProductController = async (req, res) => {
   try {

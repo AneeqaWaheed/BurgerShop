@@ -31,14 +31,14 @@ const CreateCategory = () => {
       toast.error("Something went wrong in input form");
     }
   };
-  //get all cat
+  //get all category
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get(
         `${process.env.React_App_API}/api/v1/category/get-category`
       );
-      if (data.success) {
-        setCategories(data.category);
+      if (data?.success) {
+        setCategories(data?.category);
       }
     } catch (error) {
       console.log(error);
