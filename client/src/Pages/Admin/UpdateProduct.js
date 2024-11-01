@@ -5,15 +5,15 @@ import bgImage from "../../assets/bg-boxed.jpg";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { storage } from "../../firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
+import { getDownloadURL } from "firebase/storage";
 import { Button, Select } from "antd";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, useParams } from "react-router-dom";
 const { Option } = Select;
-
-const CreateProduct = () => {
+const UpdateProduct = () => {
   const navigate = useNavigate();
+  const params = useParams();
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -21,9 +21,30 @@ const CreateProduct = () => {
   const [image, setImage] = useState("");
   const [category, setCategory] = useState("");
   const [imageUpload, setImageUpload] = useState(null);
-  const [loading, setLoading] = useState(false); // Add loading state
-
-  // Get all categories
+  const [id, setId] = useState("");
+  console.log("nsabdmans", params);
+  // get Single Product
+  const getSingleProduct = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.React_App_API}/api/v1/product/single-product/${params.id}`
+      );
+      console.log("asdjashdjas", data);
+      setName(data?.product?.name);
+      setId(data?.product?._id);
+      setDescription(data?.product?.description);
+      setPrice(data?.product?.price);
+      setCategory(data?.product?.category);
+      setImage(data?.product?.image);
+    } catch (error) {
+      console.log("error ", error);
+    }
+  };
+  useEffect(() => {
+    getSingleProduct();
+    //eslint-disable-next-line
+  }, []);
+  //get all category
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get(
@@ -37,41 +58,40 @@ const CreateProduct = () => {
       toast.error("Something went wrong");
     }
   };
-
   useEffect(() => {
     getAllCategory();
   }, []);
-
-  // Create product function
-  const handleCreate = async (e) => {
+  console.log(category);
+  // create product function
+  const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      if (!imageUpload) {
+      if (!imageUpload && !image) {
         toast.error("Please upload an image before submitting!");
-        return; // Stop the function if no image is uploaded
+        return; // Stop the function if no image is uploaded and no default image exists
       }
 
       const productData = new FormData();
       productData.append("name", name);
-      productData.append("category", category);
+      productData.append("category", category._id);
       productData.append("description", description);
       productData.append("price", price);
 
-      const imageRef = ref(storage, `/${imageUpload.name + v4()}`);
-      // Set loading state to true when the request starts
-      setLoading(true);
-
-      // Upload image to Firebase storage
-      const snapshot = await uploadBytes(imageRef, imageUpload);
-      // Get the image URL from Firebase
-      const downloadURL = await getDownloadURL(imageRef);
-
-      // Update the formData with the image URL
-      productData.append("image", downloadURL);
-
+      if (imageUpload) {
+        const imageRef = ref(storage, `/${imageUpload.name + v4()}`);
+        // Upload image to Firebase storage
+        await uploadBytes(imageRef, imageUpload);
+        // Get the image URL from Firebase
+        const downloadURL = await getDownloadURL(imageRef);
+        // Append the image URL to productData
+        productData.append("image", downloadURL);
+      } else {
+        // If no new image is uploaded, append the existing image
+        productData.append("image", image); // Existing image
+      }
       // Send the formData to the server
-      const { data } = await axios.post(
-        `${process.env.React_App_API}/api/v1/product/create-product`,
+      const { data } = await axios.put(
+        `${process.env.React_App_API}/api/v1/product/update-product/${id}`,
         productData,
         {
           headers: {
@@ -81,7 +101,7 @@ const CreateProduct = () => {
       );
 
       if (data?.success) {
-        toast.success("Product created successfully!");
+        toast.success("Product updated successfully!");
         navigate("/dashboard/admin/product");
       } else {
         toast.error(data?.message);
@@ -89,9 +109,6 @@ const CreateProduct = () => {
     } catch (error) {
       console.log(error.response.data);
       toast.error("Something went wrong");
-    } finally {
-      // Set loading state to false when the request ends
-      setLoading(false);
     }
   };
 
@@ -109,17 +126,17 @@ const CreateProduct = () => {
           width: "100%",
           margin: 0,
           padding: 0,
-          display: "flex",
-          flexDirection: "column",
+          display: "flex", // Use flexbox for layout
+          flexDirection: "column", // Stack children vertically
         }}
       >
         <div
           className="row"
           style={{
             backgroundColor: "rgba(0, 0, 0, 0.7)",
-            flex: "1",
-            display: "flex",
-            flexDirection: "row",
+            flex: "1", // Allow this to grow
+            display: "flex", // Use flexbox
+            flexDirection: "row", // Arrange children in a row
             padding: "50px",
           }}
         >
@@ -127,7 +144,9 @@ const CreateProduct = () => {
             <AdminMenu />
           </div>
           <div className="col-md-9" style={{ overflowY: "auto" }}>
-            <h1 className="text-white">Create Product</h1>
+            {" "}
+            {/* Enable scrolling here */}
+            <h1 className="text-white">Update Product</h1>
             <div className="m-1">
               <Select
                 placeholder="select a category"
@@ -141,6 +160,7 @@ const CreateProduct = () => {
                 onChange={(value) => {
                   setCategory(value);
                 }}
+                value={category.name}
               >
                 {categories?.map((c) => (
                   <Option key={c._id} value={c._id}>
@@ -150,7 +170,11 @@ const CreateProduct = () => {
               </Select>
               <div className="mb-3">
                 <label className="btn btn-outline-secondary col-md-12 bg-white color-black">
-                  {imageUpload ? imageUpload.name : "Upload Image"}
+                  {imageUpload
+                    ? imageUpload.name
+                    : image
+                    ? "Change Image"
+                    : "Upload Image"}
                   <input
                     type="file"
                     name="image"
@@ -161,16 +185,23 @@ const CreateProduct = () => {
                 </label>
               </div>
 
-              <div className="mb-3">
-                {imageUpload && (
-                  <div className="text-center">
+              <div className="mb-3 text-center">
+                {imageUpload ? (
+                  <img
+                    src={URL.createObjectURL(imageUpload)}
+                    alt="Product Image"
+                    height={"200px"}
+                    className="img img-responsive"
+                  />
+                ) : (
+                  image && (
                     <img
-                      src={URL.createObjectURL(imageUpload)}
+                      src={image} // Use the existing image URL
                       alt="Product Image"
                       height={"200px"}
                       className="img img-responsive"
                     />
-                  </div>
+                  )
                 )}
               </div>
 
@@ -204,10 +235,9 @@ const CreateProduct = () => {
               <div className="mb-3">
                 <button
                   className="btn btn-danger form-control"
-                  onClick={handleCreate}
-                  disabled={loading} // Disable button while loading
+                  onClick={handleUpdate}
                 >
-                  {loading ? "Creating..." : "Create Product"}
+                  Update Product
                 </button>
               </div>
             </div>
@@ -218,4 +248,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default UpdateProduct;

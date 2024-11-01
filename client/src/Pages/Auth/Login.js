@@ -104,9 +104,9 @@ const Login = () => {
             </div>
           </form>
         </div>
-        <div className="register-image">
+        {/* <div className="register-image">
           <img src="/Images/login.jpg" alt="Registration Illustration" />
-        </div>
+        </div> */}
       </div>
     </GeneralLayout>
   );

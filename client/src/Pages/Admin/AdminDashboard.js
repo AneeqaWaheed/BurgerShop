@@ -35,6 +35,15 @@ const AdminDashboard = () => {
             <AdminMenu />
           </div>
           <div className="col-md-9">
+            <h3 className="text-white m-3 mt-5">
+              WELLCOME "{auth?.user?.firstName + " " + auth?.user?.lastName}" TO
+              ADMIN DASHBOARD
+            </h3>
+            <p className="text-white mx-4">
+              We really appreciate your contribution to the Application{" "}
+            </p>
+          </div>
+          {/* <div className="col-md-9">
             <div className="card">
               <h3>
                 Admin Name: {auth?.user?.firstName + " " + auth?.user?.lastName}
@@ -42,7 +51,7 @@ const AdminDashboard = () => {
               <h3>Admin Email: {auth?.user?.email}</h3>
               <h3>Admin Gender: {auth?.user?.gender}</h3>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </GeneralLayout>

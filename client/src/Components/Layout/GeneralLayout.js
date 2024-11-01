@@ -13,7 +13,9 @@ const GeneralLayout = ({
   minHeight,
 }) => {
   return (
-    <div>
+    <div
+      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+    >
       <Helmet>
         <meta charSet="utf-8" />
         <meta name="description" content="Free Web tutorials" />

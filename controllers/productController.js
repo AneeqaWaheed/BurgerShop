@@ -1,5 +1,7 @@
 import Product from "../models/productModel.js";
 import fs from "fs";
+import { Types } from "mongoose";
+import categoryModel from "../models/categoryModel.js";
 //create product
 export const createProductController = async (req, res) => {
   try {
@@ -81,23 +83,34 @@ export const getProductController = async (req, res) => {
 //get single product
 export const singleProductController = async (req, res) => {
   try {
-    const product = await Product.findOne({ id: req.body.id })
+    // Use req.params.id if you're using a URL parameter
+    const product = await Product.findOne({ _id: req.params.id }) // Assuming you're using MongoDB's default _id
       .select("-images")
       .populate("category");
+
+    // Check if product is found
+    if (!product) {
+      return res.status(404).send({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
     res.status(200).send({
       success: true,
-      message: "Single Category Successfully",
+      message: "Single Product Successfully Retrieved",
       product,
     });
   } catch (error) {
-    console.log(error),
-      res.status(500).send({
-        success: false,
-        message: "Error while getting Single Category",
-        error,
-      });
+    console.error(error);
+    res.status(500).send({
+      success: false,
+      message: "Error while getting Single Product",
+      error,
+    });
   }
 };
+
 //get Product Image
 export const productImageController = async (req, res) => {
   try {
@@ -147,38 +160,49 @@ export const deleteProductController = async (req, res) => {
 //update Product
 export const updateProductController = async (req, res) => {
   try {
-    const { prId } = req.params;
-    const ProductId = await Product.findById(prId);
-    console.log(ProductId);
-    if (!ProductId) {
-      return res
-        .status(404)
-        .send({ status: "failed", message: "Product not found" });
+    const { name, description, price, category, image } = req.body;
+
+    // Validation
+    switch (true) {
+      case !name:
+        return res.status(400).send({ error: "Name is Required" });
+      case !description:
+        return res.status(400).send({ error: "Description is Required" });
+      case !price:
+        return res.status(400).send({ error: "Price is Required" });
+      case !category:
+        return res.status(400).send({ error: "Category is Required" });
+      case !image:
+        return res.status(400).send({ error: "Image is Required" });
     }
 
-    // Modify updateData to include tripId
-    const updateData = { ...req.body, _id: prId };
-    delete updateData._id; // Remove _id if it exists in req.body
-
-    const updatedProduct = await Product.findByIdAndUpdate(prId, updateData, {
-      new: true,
-    });
+    // Find and update the product
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.prId,
+      { name, description, price, category, image },
+      { new: true } // Returns the updated document
+    );
+    if (!updatedProduct) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
 
     res.status(200).send({
-      status: "success",
-      message: "Product updated successfully",
-      data: updatedProduct,
+      success: true,
+      message: "Product Updated Successfully",
+      product: updatedProduct,
     });
-    console.log(updatedProduct);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).send({
-      message: "Error in updating products ",
       success: false,
       error,
+      message: "Error in updating product",
     });
   }
 };
+
 //product filter
 export const productFilterController = async (req, res) => {
   try {
@@ -215,21 +239,57 @@ export const productCountController = async (req, res) => {
     });
   }
 };
+//product list
 export const productListController = async (req, res) => {
   try {
-    const perPage = 6;
-    const page = req.params.page ? req.params.page : 1;
-    const products = await Product.find({})
-      .select("-images")
+    const perPage = 3;
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const category = req.query.category || "All"; // Default to "All" if category is empty
+
+    // Check if category is empty after setting a default
+    if (category.trim() === "") {
+      return res.status(400).send({
+        success: false,
+        message: "Category parameter cannot be empty.",
+      });
+    }
+
+    const query = {};
+    let categoryId;
+
+    console.log("Category received:", category);
+
+    if (category !== "All") {
+      const foundCategory = await categoryModel.findOne({ name: category });
+
+      if (!foundCategory) {
+        return res.status(404).send({
+          success: false,
+          message: "Category not found.",
+        });
+      }
+
+      categoryId = foundCategory._id;
+      query.category = categoryId;
+    }
+
+    console.log("Query object:", query);
+
+    const products = await Product.find(query)
       .skip((page - 1) * perPage)
       .limit(perPage)
       .sort({ createdAt: -1 });
+
+    const totalProducts = await Product.countDocuments(query);
+    const totalPages = Math.ceil(totalProducts / perPage);
+
     res.status(200).send({
       success: true,
       products,
+      totalPages,
     });
   } catch (error) {
-    console.log(error);
+    console.error("Error in productListController:", error);
     res.status(500).send({
       success: false,
       message: "Server Error",
