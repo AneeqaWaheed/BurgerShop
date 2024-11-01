@@ -122,7 +122,7 @@ export const forgotPassword = async (req, res) => {
     user.resetPasswordExpires = Date.now() + 3600000; // Expires in 1 hour
     await user.save();
 
-    const resetUrl = `http://localhost:3000/reset-password/${user.resetPasswordToken}`;
+    const resetUrl = `${process.env.REACT_ADDRESS}/reset-password/${user.resetPasswordToken}`;
     const mailOptions = {
       to: user.email,
       from: process.env.EMAIL,
