@@ -175,15 +175,15 @@ const Register = () => {
               <p>
                 Already have an account?{" "}
                 <Link to="/login" className="text-danger fw-semibold">
-                  Sign In
+                  Log In
                 </Link>
               </p>
             </div>
           </form>
         </div>
-        <div className="register-image">
+        {/* <div className="register-image">
           <img src="/Images/register.png" alt="Registration Illustration" />
-        </div>
+        </div> */}
       </div>
     </GeneralLayout>
   );

@@ -7,31 +7,18 @@ import axios from "axios";
 import { Modal } from "antd";
 import bgImage from "../../assets/bg-boxed.jpg";
 import "../../styles/createCategory.css";
+
 const CreateCategory = () => {
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState(null);
   const [updatedName, setUpdatedName] = useState("");
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const { data } = await axios.post(
-        `${process.env.React_App_API}/api/v1/category/create-category`,
-        { name }
-      );
-      if (data?.success) {
-        toast.success(`${name} category is created successfully`);
-        getAllCategory();
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong in input form");
-    }
-  };
-  //get all category
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const categoriesPerPage = 4; // Number of categories per page
+
+  // Fetch all categories
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get(
@@ -45,11 +32,43 @@ const CreateCategory = () => {
       toast.error("Something went wrong");
     }
   };
+
   useEffect(() => {
     getAllCategory();
   }, []);
 
-  //hanlde update
+  // Calculate paginated categories
+  const indexOfLastCategory = currentPage * categoriesPerPage;
+  const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
+  const currentCategories = categories.slice(
+    indexOfFirstCategory,
+    indexOfLastCategory
+  );
+
+  // Pagination Handlers
+  const nextPage = () => setCurrentPage((prev) => prev + 1);
+  const prevPage = () => setCurrentPage((prev) => prev - 1);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        `${process.env.React_App_API}/api/v1/category/create-category`,
+        { name }
+      );
+      if (data?.success) {
+        toast.success(`${name} category is created successfully`);
+        getAllCategory();
+        setName(""); // Clear the input field
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong in input form");
+    }
+  };
+
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -70,14 +89,14 @@ const CreateCategory = () => {
       toast.error("Something went wrong");
     }
   };
-  //hanlde delete
+
   const handleDelete = async (id) => {
     try {
       const { data } = await axios.delete(
         `${process.env.React_App_API}/api/v1/category/delete-category/${id}`
       );
       if (data?.success) {
-        toast.success(`category is deleted`);
+        toast.success("Category is deleted");
         getAllCategory();
       } else {
         toast.error(data.message);
@@ -86,8 +105,9 @@ const CreateCategory = () => {
       toast.error("Something went wrong");
     }
   };
+
   return (
-    <GeneralLayout title={"DashBoard - Category"}>
+    <GeneralLayout title={"DashBoard - Category"} minHeight={"100vh"}>
       <div
         className="container-fluid"
         style={{
@@ -95,15 +115,15 @@ const CreateCategory = () => {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          backgroundAttachment: "fixed", // Keeps the background fixed during scrolling
-          height: "100vh", // Sets the height to cover the full viewport height
-          width: "100%", // Sets the width to cover the full viewport width
-          margin: 0, // Removes default margins
+          backgroundAttachment: "fixed",
+          height: "100vh",
+          width: "100%",
+          margin: 0,
           padding: 0,
         }}
       >
         <div
-          className="row "
+          className="row"
           style={{
             backgroundColor: "rgba(0, 0, 0, 0.7)",
             height: "100vh",
@@ -133,36 +153,50 @@ const CreateCategory = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <>
-                    {categories.map((c) => (
-                      <tr>
-                        <td key={c._id}>{c.name}</td>
-                        <td>
-                          <button
-                            className="btn btn-success"
-                            onClick={() => {
-                              setVisible(true);
-                              setUpdatedName(c.name);
-                              setSelected(c);
-                            }}
-                          >
-                            Edit
-                          </button>
-                          <button
-                            className="btn btn-danger ms-2"
-                            onClick={() => {
-                              handleDelete(c._id);
-                            }}
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </>
+                  {currentCategories.map((c) => (
+                    <tr key={c._id}>
+                      <td>{c.name}</td>
+                      <td>
+                        <button
+                          className="btn btn-success"
+                          onClick={() => {
+                            setVisible(true);
+                            setUpdatedName(c.name);
+                            setSelected(c);
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="btn btn-danger ms-2"
+                          onClick={() => handleDelete(c._id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
+              <div className="pagination-controls d-flex align-items-baseline justify-content-end">
+                <button
+                  className="btn btn-danger"
+                  onClick={prevPage}
+                  disabled={currentPage === 1}
+                >
+                  Prev
+                </button>
+                <span className="text-white mx-2">Page {currentPage}</span>
+                <button
+                  className="btn btn-danger"
+                  onClick={nextPage}
+                  disabled={indexOfLastCategory >= categories.length}
+                >
+                  Next
+                </button>
+              </div>
             </div>
+
             <Modal
               className="p-2"
               title="Update Category"

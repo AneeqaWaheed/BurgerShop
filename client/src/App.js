@@ -19,6 +19,11 @@ import Orders from "./Pages/User/Orders";
 import Profile from "./Pages/User/Profile";
 import ContactPage from "./Pages/ContactPage";
 import Products from "./Pages/Admin/Products";
+import UpdateProducts from "./Pages/Admin/UpdateProduct";
+import ProductPage from "./Pages/productPage";
+import CartPage from "./Pages/Orders/orders";
+import Checkout from "./Pages/Checkout";
+
 function App() {
   return (
     <>
@@ -29,21 +34,26 @@ function App() {
           <Route path="user/orders" element={<Orders />} />
           <Route path="user/profile" element={<Profile />} />
         </Route>
+        <Route path="/" element={<PrivateRoute />}>
+          <Route path="/cart" element={<CartPage />} />
+        </Route>
         <Route path="/dashboard" element={<AdminRoute />}>
           <Route path="admin" element={<AdminDashboard />} />
           <Route path="admin/create-category" element={<CreateCategory />} />
           <Route path="admin/create-product" element={<CreateProduct />} />
           <Route path="admin/product" element={<Products />} />
+          <Route path="admin/product/:id" element={<UpdateProducts />} />
           <Route path="admin/users" element={<Users />} />
         </Route>
         <Route path="/menu" element={<Menu />} />
+        <Route path="/Productpage/:id" element={<ProductPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout-success/success" element={<Checkout />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>

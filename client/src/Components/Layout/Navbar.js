@@ -4,9 +4,11 @@ import { FaBurger } from "react-icons/fa6";
 import { useAuth } from "../../context/auth";
 import { toast } from "react-toastify";
 import "../../styles/navbar.css";
+import { useCart } from "../../context/cart";
 const Navbar = ({ backgroundColor, textColor, linkColor, position }) => {
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
+  const { cart, setCart } = useCart();
   const handleLogout = () => {
     toast.success("Logout Successfully");
     setAuth({
@@ -118,7 +120,7 @@ const Navbar = ({ backgroundColor, textColor, linkColor, position }) => {
               )}
               <li className="nav-item">
                 <NavLink className="nav-link text-white" to="/cart">
-                  Cart(0)
+                  Cart {cart.length > 0 ? `(${cart.length})` : "(0)"}
                 </NavLink>
               </li>
             </ul>

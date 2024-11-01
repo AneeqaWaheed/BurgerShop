@@ -41,7 +41,7 @@ router.put("/update-product/:prId", updateProductController);
 // //product count
 // router.get("/product-count", productCountController);
 // //product per page
-// router.get("/product-list/:page", productListController);
+router.get("/product-list", productListController);
 // //search Product
 // router.get("/search/:keyword", searchProductController);
 export default router;
