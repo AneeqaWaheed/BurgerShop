@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "./Navbar";
 import "../../styles/header.css";
+import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <>
@@ -14,9 +15,11 @@ const Header = () => {
         <div className="header-text">
           <h1>Burger Shop</h1>
           <p>Where Every Bite is a Flavor Explosion.</p>
-          <button type="button" class="btn btn-danger">
-            Order Now
-          </button>
+          <Link to={"/menu"}>
+            <button type="button" class="btn btn-danger">
+              Order Now
+            </button>
+          </Link>
         </div>
       </section>
     </>
