@@ -27,6 +27,6 @@ Layout.defaultProps = {
   title: "BurgerShop",
   description: "Burger Shop for killing your hunger",
   keywords: "Burger, ecommerce, food, fast food, hunger",
-  author: "Aneeqa Waheed",
+  author: "Amayal Royy",
 };
 export default Layout;

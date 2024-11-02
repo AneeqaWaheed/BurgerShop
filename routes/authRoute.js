@@ -8,6 +8,7 @@ import {
   updateProfileController,
 } from "../controllers/authController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
+import { getAllUsers } from "../controllers/userController.js";
 //router object
 const router = express.Router();
 
@@ -34,6 +35,7 @@ router.post("/reset-password/:token", resetPassword);
 router.get("/admin-auth", requireSignIn, isAdmin, (req, res) => {
   res.status(200).send({ ok: true });
 });
+router.get("/all-users", requireSignIn, isAdmin, getAllUsers);
 
 //update profile
 

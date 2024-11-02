@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from "react";
-import UserMenu from "../../Components/Layout/UserMenu";
 import GeneralLayout from "../../Components/Layout/GeneralLayout";
+import AdminMenu from "../../Components/Layout/AdminMenu";
+import bgImage from "../../assets/bg-boxed.jpg";
 import axios from "axios";
-import { useAuth } from "../../context/auth";
 
-const Orders = () => {
+const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(10); // Number of products per page
-  const [auth] = useAuth();
-  const userId = auth?.userId;
-  console.log("asdasdnas", auth);
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          `${process.env.React_App_API}/api/v1/orders/user/${userId}`
+          `${process.env.React_App_API}/api/v1/orders/all-orders`
         );
-        console.log(response);
         setOrders(response.data.orders);
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -49,46 +46,64 @@ const Orders = () => {
     }
   };
 
+  console.log("orders", orders);
+
   return (
-    <GeneralLayout title={"My Orders"}>
-      <div className="container-fluid p-3 m-3">
-        <div className="row mx-3">
+    <GeneralLayout title={"DashBoard - All orders"}>
+      <div
+        className="container-fluid"
+        style={{
+          backgroundImage: `url(${bgImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed",
+          height: "100vh",
+          width: "100%",
+          margin: 0,
+          padding: 0,
+        }}
+      >
+        <div
+          className="row"
+          style={{
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            height: "100vh",
+            width: "100%",
+            padding: "50px",
+            margin: "0px",
+          }}
+        >
           <div className="col-md-3">
-            <UserMenu />
+            <AdminMenu />
           </div>
-          <div className="col-md-9 ">
-            <h1 className="text-center">Your Orders</h1>
-            <table className="table table-striped">
+          <div className="col-md-9 rounded">
+            <h1 className="text-center text-white">Orders</h1>
+            <table className="table w-100 table-striped">
               <thead>
                 <tr>
+                  <th scope="col">User Name</th>
+                  <th scope="col">Email</th>
                   <th scope="col">Product Name</th>
                   <th scope="col">Product Price</th>
-                  <th scope="col">Product Category</th>
                   <th scope="col">Quantity</th>
                   <th scope="col">Total Amount</th>
+                  <th scope="col">Status</th>
                 </tr>
               </thead>
 
               <tbody>
-                {currentProducts.length === 0 ? (
-                  <tr>
-                    <td colSpan="4" className="text-center">
-                      No orders found
-                    </td>
+                {currentProducts.map((order) => (
+                  <tr key={order?._id}>
+                    <td>{order?.userId?.firstName}</td>
+                    <td>{order?.userId?.email}</td>
+                    <td>{order?.items?.[0]?.productId?.name}</td>
+                    <td>{order?.items?.[0]?.productId?.price}</td>
+                    <td>{order?.items?.[0]?.quantity}</td>
+                    <td>{order?.totalAmount}</td>
+                    <td>{order?.status}</td>
                   </tr>
-                ) : (
-                  currentProducts.map((order) =>
-                    order.items.map((item) => (
-                      <tr key={item._id}>
-                        <td>{item.productId.name}</td>
-                        <td>{item.productId.price}</td>
-                        <td>{item.productId.category?.name}</td>
-                        <td>{item.quantity}</td>
-                        <td>{order.totalAmount}</td>
-                      </tr>
-                    ))
-                  )
-                )}
+                ))}
               </tbody>
             </table>
             {/* Pagination Controls */}
@@ -100,7 +115,7 @@ const Orders = () => {
               >
                 Prev
               </button>
-              <span className="mx-2">
+              <span className="text-white mx-2">
                 Page {currentPage} of {totalPages}
               </span>
               <button
@@ -118,4 +133,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default AdminOrders;
