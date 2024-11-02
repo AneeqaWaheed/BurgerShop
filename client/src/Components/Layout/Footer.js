@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <div className="bg-dark text-light p-3 m-0 card-footer  ">
-      <h4 className="text-center fs-6">All Rights &copy; Aneeqa Waheed</h4>
+      <h4 className="text-center fs-6">All Rights &copy; Amayal Royy</h4>
       <p className="text-center mt-3 ftr">
         <Link
           to="/about"

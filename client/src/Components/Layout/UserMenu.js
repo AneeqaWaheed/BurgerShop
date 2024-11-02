@@ -8,14 +8,14 @@ const UserMenu = () => {
         <div class="list-group">
           <h4>User Panel</h4>
           <div>
-            <NavLink
+            {/* <NavLink
               to="/dashboard/user/profile"
               aria-current="page"
               className="list-group-item list-group-item-action "
               activeClassName="active-link"
             >
               Profile
-            </NavLink>
+            </NavLink> */}
             <NavLink
               to="/dashboard/user/orders"
               className="list-group-item list-group-item-action "

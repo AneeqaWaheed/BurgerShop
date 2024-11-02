@@ -6,8 +6,8 @@ import authRoute from "./routes/authRoute.js";
 import cors from "cors";
 import categoryRoute from "./routes/categoryRoute.js";
 import productRoute from "./routes/productRoute.js";
-
 import paymentRoute from "./routes/paymentRoute.js";
+import orderRoute from "./routes/orderRoute.js";
 //congigure env
 dotenv.config();
 
@@ -34,7 +34,7 @@ app.use("/api/v1/category", categoryRoute);
 app.use("/api/v1/product", productRoute);
 app.use("/api/v1/payment", paymentRoute);
 
-// app.use("/api/v1/orders", orderRoute);
+app.use("/api/v1/orders", orderRoute);
 // //rest api
 app.get("/", (req, res) => {
   res.send("<h1>Welcome to Burger Shop</h1>");
