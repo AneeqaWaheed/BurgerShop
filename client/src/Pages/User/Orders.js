@@ -10,14 +10,13 @@ const Orders = () => {
   const [productsPerPage] = useState(10); // Number of products per page
   const [auth] = useAuth();
   const userId = auth?.userId;
-  console.log("asdasdnas", auth);
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
           `${process.env.React_App_API}/api/v1/orders/user/${userId}`
         );
-        console.log(response);
         setOrders(response.data.orders);
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -25,16 +24,12 @@ const Orders = () => {
     };
 
     fetchOrders();
-  }, []);
+  }, [userId]);
 
-  // Calculate the index of the last product on the current page
+  // Pagination logic
   const indexOfLastProduct = currentPage * productsPerPage;
-  // Calculate the index of the first product on the current page
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  // Get the current products
   const currentProducts = orders.slice(indexOfFirstProduct, indexOfLastProduct);
-
-  // Handle pagination
   const totalPages = Math.ceil(orders.length / productsPerPage);
 
   const handleNextPage = () => {
@@ -52,7 +47,7 @@ const Orders = () => {
   return (
     <GeneralLayout title={"My Orders"}>
       <div className="container-fluid p-3 m-3">
-        <div className="row mx-3">
+        <div className="row">
           <div className="col-md-3">
             <UserMenu />
           </div>
@@ -68,11 +63,10 @@ const Orders = () => {
                   <th scope="col">Total Amount</th>
                 </tr>
               </thead>
-
               <tbody>
                 {currentProducts.length === 0 ? (
                   <tr>
-                    <td colSpan="4" className="text-center">
+                    <td colSpan="5" className="text-center">
                       No orders found
                     </td>
                   </tr>
