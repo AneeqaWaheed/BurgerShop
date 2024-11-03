@@ -126,7 +126,13 @@ const CreateProduct = () => {
           <div className="col-md-3">
             <AdminMenu />
           </div>
-          <div className="col-md-9" style={{ overflowY: "auto" }}>
+          <div
+            className="col-md-9"
+            style={{
+              maxHeight: "80vh", // Restrict the height for the form area
+              overflowY: "auto",
+            }}
+          >
             <h1 className="text-white">Create Product</h1>
             <div className="m-1">
               <Select
