@@ -130,7 +130,13 @@ const CartPage = () => {
                               <p>{p.name}</p>
                             </div>
                           </td>
-                          <td>{p.description}</td>
+                          <td>
+                            {p.description.split(" ").slice(0, 10).join(" ")}
+                            {p.description.split(" ").length > 10
+                              ? " . . ."
+                              : ""}
+                          </td>
+
                           <td>{p.quantity}</td>
                           <td>{p.price}</td>
                         </tr>

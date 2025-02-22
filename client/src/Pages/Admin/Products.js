@@ -105,66 +105,79 @@ const Products = () => {
             </div>
             <div className="col-md-9">
               <h1 className="text-center text-white">All Products</h1>
-              <table className="table w-100 ">
-                <thead>
-                  <tr>
-                    <th scope="col">Image</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Actions</th>
-                  </tr>
-                </thead>
 
-                <tbody>
-                  {currentProducts.map((p) => (
-                    <tr key={p._id}>
-                      <td>
-                        <img
-                          src={p.image}
-                          alt={p.name}
-                          style={{ width: "100px", height: "100px" }}
-                        />
-                      </td>
-                      <td>{p.name}</td>
-                      <td>
-                        {p.category ? p.category.name : "No Category"}
-                      </td>{" "}
-                      {/* Render category name */}
-                      <td>{p.description}</td>
-                      <td>{p.price}</td>
-                      <td>
-                        <Link to={`/dashboard/admin/product/${p._id}`}>
-                          <button className="btn btn-success">Update</button>
-                        </Link>
-
-                        <button
-                          className="btn btn-danger ms-2"
-                          onClick={() => handleDelete(p._id)}
-                        >
-                          Delete
-                        </button>
-                      </td>
+              {/* Responsive Table Wrapper */}
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered text-center">
+                  <thead className="table-dark">
+                    <tr>
+                      <th scope="col">Image</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Category</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+
+                  <tbody>
+                    {currentProducts.map((p) => (
+                      <tr key={p._id}>
+                        <td>
+                          <img
+                            src={p.image}
+                            alt={p.name}
+                            style={{
+                              width: "100px",
+                              height: "100px",
+                              objectFit: "cover",
+                            }}
+                            className="img-fluid rounded"
+                          />
+                        </td>
+                        <td>{p.name}</td>
+                        <td>{p.category ? p.category.name : "No Category"}</td>
+                        <td>
+                          {p.description.split(" ").slice(0, 10).join(" ")}
+                          {p.description.split(" ").length > 10 ? " . . ." : ""}
+                        </td>
+                        <td>${p.price}</td>
+                        <td>
+                          <div className="d-flex flex-wrap justify-content-center">
+                            <Link to={`/dashboard/admin/product/${p._id}`}>
+                              <button className="btn btn-success mb-1">
+                                Update
+                              </button>
+                            </Link>
+
+                            <button
+                              className="btn btn-danger ms-2 mb-1"
+                              onClick={() => handleDelete(p._id)}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
               {/* Pagination Controls */}
-              <div className="pagination-controls d-flex align-items-baseline justify-content-end">
+              <div className="pagination-controls d-flex align-items-center justify-content-center mt-3">
                 <button
-                  className="btn btn-danger"
+                  className="btn btn-danger me-2"
                   onClick={handlePreviousPage}
                   disabled={currentPage === 1}
                 >
                   Prev
                 </button>
-                <span className="text-white mx-2">
-                  {" "}
+                <span className="text-white">
                   Page {currentPage} of {totalPages}
                 </span>
                 <button
-                  className="btn btn-danger"
+                  className="btn btn-danger ms-2"
                   onClick={handleNextPage}
                   disabled={currentPage === totalPages}
                 >

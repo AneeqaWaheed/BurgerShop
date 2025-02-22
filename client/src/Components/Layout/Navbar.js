@@ -37,10 +37,19 @@ const Navbar = ({ backgroundColor, textColor, linkColor, position }) => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="30"
+              height="30"
+              fill="#FFFFFF" /* Custom icon color */
+              className="bi bi-list"
+              viewBox="0 0 16 16"
+            >
+              <path d="M2.5 12.5a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10a.5.5 0 0 1-.5-.5z" />
+            </svg>
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <Link className="navbar-brand text-white fw-bold" to="/">
+            <Link className="navbar-brand text-white fw-bold" to="/home">
               <FaBurger className="faburger" />
               Burger Shop
             </Link>
@@ -49,7 +58,7 @@ const Navbar = ({ backgroundColor, textColor, linkColor, position }) => {
                 <NavLink
                   className="nav-link  text-white"
                   aria-current="page"
-                  to="/"
+                  to="/home"
                 >
                   Home
                 </NavLink>
@@ -58,7 +67,7 @@ const Navbar = ({ backgroundColor, textColor, linkColor, position }) => {
                 <NavLink
                   className="nav-link  text-white"
                   aria-current="page"
-                  to="/menu"
+                  to="/"
                 >
                   Menu
                 </NavLink>

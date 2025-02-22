@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap"; // Import Button from react-bootstrap
 import { toast } from "react-toastify";
 import ProductsList from "./ProductList";
 import { Link } from "react-router-dom";
+import "../styles/menu.css";
 
 const Menu = () => {
   const [categories, setCategories] = useState([]);
@@ -67,44 +68,46 @@ const Menu = () => {
   return (
     <Layout title="Menu - BurgerShop">
       <div className="container-fluid">
-        <div className="row">
+        <div className="d-flex flex-column">
           {/* Category filter buttons on the left */}
-          <div
-            style={{ flex: "0 0 200px", marginRight: "20px" }}
-            className="mb-5"
-          >
-            <h5 className="mb-3 ms-3">Filters by Category</h5>
-            <ul className="">
-              <li className="list-group-item">
+          <div className="d-flex flex-wrap justify-content-center category-filter">
+            <ul className="d-flex flex-wrap justify-content-center p-0 m-0">
+              <li className="list-unstyled mx-3 w-auto">
                 <Link
                   onClick={() => handleCategoryChange("All")}
                   style={{
                     margin: "5px",
-                    padding: "10px",
+                    padding: "10px 15px",
                     color: selectedCategory === "All" ? "red" : "black",
-                    width: "100%", // Make buttons full width
-
-                    textDecoration: "none", // Remove underline
-                    display: "block", // Makes the entire button area clickable
+                    fontSize: "18px",
+                    textDecoration: "none",
+                    display: "block",
+                    borderRadius: "5px",
+                    whiteSpace: "nowrap",
+                    letterSpacing: "2px",
+                    transition: "all 0.3s ease",
                   }}
                 >
                   All
                 </Link>
               </li>
+
               {categories.map((category) => (
-                <li key={category.id} className="list-group-item">
+                <li key={category.id} className="list-unstyled mx-3 w-auto">
                   <Link
                     onClick={() => handleCategoryChange(category.name)}
                     style={{
                       margin: "5px",
-                      padding: "10px",
+                      padding: "10px 15px",
                       color:
                         selectedCategory === category.name ? "red" : "black",
-
-                      width: "100%", // Make buttons full width
-
-                      textDecoration: "none", // Remove underline
-                      display: "block", // Makes the entire button area clickable
+                      fontSize: "18px",
+                      textDecoration: "none",
+                      display: "block",
+                      borderRadius: "5px",
+                      whiteSpace: "nowrap",
+                      letterSpacing: "2px",
+                      transition: "all 0.3s ease",
                     }}
                   >
                     {category.name}
@@ -115,8 +118,8 @@ const Menu = () => {
           </div>
 
           {/* Products list on the right */}
-          <div className="col-lg-9 col-md-8 col-12 m-4">
-            <h1 className="text-center text-danger">Our Menu</h1>
+          <div className=" my-4 w-100">
+            {/* <h1 className="text-center text-danger">Our Menu</h1> */}
             {loading ? (
               <p className="text-center mt-5">Loading products...</p>
             ) : (

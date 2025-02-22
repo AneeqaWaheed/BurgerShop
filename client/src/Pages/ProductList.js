@@ -12,7 +12,7 @@ const ProductsList = ({ products }) => {
 
   return (
     <Container className="my-5">
-      <Row className="justify-content-center">
+      <Row className="">
         {products.map((product) => (
           <Col
             key={product._id}
@@ -20,7 +20,8 @@ const ProductsList = ({ products }) => {
             sm={6}
             md={4}
             lg={3}
-            style={{ marginRight: "30px", margin: "30px" }}
+            xlg={3}
+            style={{ margin: "30px" }}
           >
             <ProductCard product={product} />
           </Col>

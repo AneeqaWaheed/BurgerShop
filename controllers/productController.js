@@ -242,7 +242,7 @@ export const productCountController = async (req, res) => {
 //product list
 export const productListController = async (req, res) => {
   try {
-    const perPage = 3;
+    const perPage = 12;
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const category = req.query.category || "All"; // Default to "All" if category is empty
 

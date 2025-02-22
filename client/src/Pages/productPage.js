@@ -58,16 +58,22 @@ const ProductPage = () => {
   return (
     <Layout title="Menu - BurgerShop">
       <div className="container mt-5">
-        <div className="row">
-          <div className="col-md-6">
-            <img src={image} alt={name} className="img-fluid" />
+        <div className="row align-items-center">
+          <div className="col-md-6 mb-4 mb-md-0">
+            <img
+              src={image}
+              alt={name}
+              className="img-fluid rounded shadow-sm w-100"
+              style={{ objectFit: "cover", maxHeight: "400px" }}
+            />
           </div>
           <div className="col-md-6">
-            <h2>{name}</h2>
-            <p className="h4">${price}</p>
-            <p>{description}</p>
+            <h2 className="fw-bold">{name}</h2>
+            <p className="h4 text-success">${price}</p>
+            <p className="text-muted">{description}</p>
+
             <div className="mb-3">
-              <label htmlFor="quantity" className="form-label">
+              <label htmlFor="quantity" className="form-label fw-semibold">
                 Quantity:
               </label>
               <input
@@ -76,15 +82,17 @@ const ProductPage = () => {
                 value={quantity}
                 onChange={handleQuantityChange}
                 min="1"
-                className="form-control w-25"
+                className="form-control w-50"
               />
             </div>
-            <button className="btn btn-success" onClick={handleAddToCart}>
+
+            <button className="btn btn-success w-50" onClick={handleAddToCart}>
               Add to Cart
             </button>
           </div>
         </div>
       </div>
+
       <hr />
       <div className="container my-5">
         <OrderDetails />

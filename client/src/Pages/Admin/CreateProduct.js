@@ -105,7 +105,7 @@ const CreateProduct = () => {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundAttachment: "fixed",
-          height: "100vh",
+          minHeight: "100vh",
           width: "100%",
           margin: 0,
           padding: 0,
@@ -119,34 +119,38 @@ const CreateProduct = () => {
             backgroundColor: "rgba(0, 0, 0, 0.7)",
             flex: "1",
             display: "flex",
-            flexDirection: "row",
-            padding: "50px",
+            flexWrap: "wrap",
+            padding: "20px",
           }}
         >
-          <div className="col-md-3">
+          {/* Admin Menu */}
+          <div className="col-lg-3 col-md-4 col-sm-12 mb-4">
             <AdminMenu />
           </div>
+
+          {/* Product Creation Form */}
           <div
-            className="col-md-9"
+            className="col-lg-9 col-md-8 col-sm-12"
             style={{
-              maxHeight: "80vh", // Restrict the height for the form area
+              maxHeight: "80vh",
               overflowY: "auto",
             }}
           >
-            <h1 className="text-white">Create Product</h1>
-            <div className="m-1">
+            <h1 className="text-white text-center">Create Product</h1>
+
+            <div
+              className="m-1 bg-body-secondary p-4 rounded shadow"
+              // style={{ backgroundColor: "rgb(176, 98, 98)" }}
+            >
+              {/* Category Selection */}
               <Select
-                placeholder="select a category"
+                placeholder="Select a category"
                 showSearch
                 autoClearSearchValue
-                onBlur={(e) => {
-                  e.target.blur();
-                }}
+                onBlur={(e) => e.target.blur()}
                 className="form-select p-0 mb-3"
                 size="large"
-                onChange={(value) => {
-                  setCategory(value);
-                }}
+                onChange={(value) => setCategory(value)}
               >
                 {categories?.map((c) => (
                   <Option key={c._id} value={c._id}>
@@ -154,8 +158,10 @@ const CreateProduct = () => {
                   </Option>
                 ))}
               </Select>
+
+              {/* Image Upload */}
               <div className="mb-3">
-                <label className="btn btn-outline-secondary col-md-12 bg-white color-black">
+                <label className="btn btn-outline-secondary col-12 bg-white text-dark">
                   {imageUpload ? imageUpload.name : "Upload Image"}
                   <input
                     type="file"
@@ -167,19 +173,19 @@ const CreateProduct = () => {
                 </label>
               </div>
 
-              <div className="mb-3">
-                {imageUpload && (
-                  <div className="text-center">
-                    <img
-                      src={URL.createObjectURL(imageUpload)}
-                      alt="Product Image"
-                      height={"200px"}
-                      className="img img-responsive"
-                    />
-                  </div>
-                )}
-              </div>
+              {/* Image Preview */}
+              {imageUpload && (
+                <div className="text-center mb-3">
+                  <img
+                    src={URL.createObjectURL(imageUpload)}
+                    alt="Product"
+                    height={"200px"}
+                    className="img-fluid rounded shadow"
+                  />
+                </div>
+              )}
 
+              {/* Product Name */}
               <div className="mb-3">
                 <input
                   type="text"
@@ -189,6 +195,8 @@ const CreateProduct = () => {
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
+
+              {/* Product Description */}
               <div className="mb-3">
                 <input
                   type="text"
@@ -198,6 +206,8 @@ const CreateProduct = () => {
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
+
+              {/* Product Price */}
               <div className="mb-3">
                 <input
                   type="number"
@@ -207,11 +217,13 @@ const CreateProduct = () => {
                   onChange={(e) => setPrice(e.target.value)}
                 />
               </div>
+
+              {/* Create Product Button */}
               <div className="mb-3">
                 <button
                   className="btn btn-danger form-control"
                   onClick={handleCreate}
-                  disabled={loading} // Disable button while loading
+                  disabled={loading}
                 >
                   {loading ? "Creating..." : "Create Product"}
                 </button>

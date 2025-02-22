@@ -74,7 +74,66 @@
     .story-img iframe {
       max-width: 90%;
     }
-  
+    .contact-form {
+      margin: 0;
+    }
    
   }
   
+/* ✅ Feedback Heading */
+.fdbck {
+  font-size: 48px;
+  text-align: center;
+}
+
+/* ✅ Image Styling */
+.feedback-img {
+  width: 200px;
+  height: 200px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* ✅ Image Container */
+.img-container {
+  justify-content: end;
+  margin-top: 10px;
+}
+
+/* ✅ Media Query for Tablets */
+@media (max-width: 768px) {
+  .fdbck {
+    font-size: 36px;
+  }
+
+  .feedback-img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .img-container {
+    justify-content: center;
+  }
+}
+
+/* ✅ Media Query for Mobile */
+@media (max-width: 576px) {
+  .fdbck {
+    font-size: 28px;
+  }
+
+  .feedback-img {
+    width: 120px;
+    height: 120px;
+    margin-top: 10px;
+  }
+
+  .p-3 {
+    font-size: 16px;
+    margin: 0 10px;
+  }
+
+  .img-container {
+    justify-content: center;
+  }
+}

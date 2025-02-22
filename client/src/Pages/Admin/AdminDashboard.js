@@ -6,7 +6,7 @@ import bgImage from "../../assets/bg-boxed.jpg";
 const AdminDashboard = () => {
   const [auth] = useAuth();
   return (
-    <GeneralLayout title={"Admin DashBoard"}>
+    <GeneralLayout title={"Admin DashBoard"} minHeight={"100%"}>
       <div
         className="container-fluid "
         style={{
