@@ -66,50 +66,60 @@ const Users = () => {
             backgroundColor: "rgba(0, 0, 0, 0.7)",
             height: "100vh",
             width: "100%",
-            padding: "50px",
+            padding: "20px",
             margin: "0px",
+            overflowY: "auto", // Enables scrolling if content overflows
           }}
         >
-          <div className="col-md-3">
+          {/* Sidebar for Admin Menu */}
+          <div className="col-lg-3 col-md-4 mb-4">
             <AdminMenu />
           </div>
-          <div className="col-md-9">
+
+          {/* Main Content */}
+          <div className="col-lg-9 col-md-8">
             <h1 className="text-center text-white">USERS</h1>
-            <table className="table w-100">
-              <thead>
-                <tr>
-                  <th scope="col">FirstName</th>
-                  <th scope="col">LastName</th>
-                  <th scope="col">Gender</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Role</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentProducts.map((user) => (
-                  <tr key={user._id}>
-                    <td>{user.firstName}</td>
-                    <td>{user.lastName || "No LastName"}</td>
-                    <td>{user.gender}</td>
-                    <td>{user.email}</td>
-                    <td>{user.role}</td>
+
+            {/* Responsive Table */}
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered text-center">
+                <thead className="table-dark">
+                  <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="pagination-controls d-flex align-items-baseline justify-content-end">
+                </thead>
+                <tbody>
+                  {currentProducts.map((user) => (
+                    <tr key={user._id}>
+                      <td>{user.firstName}</td>
+                      <td>{user.lastName || "No Last Name"}</td>
+                      <td>{user.gender}</td>
+                      <td>{user.email}</td>
+                      <td>{user.role}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Pagination Controls */}
+            <div className="pagination-controls d-flex align-items-center justify-content-center mt-3">
               <button
-                className="btn btn-danger"
+                className="btn btn-danger me-2"
                 onClick={handlePreviousPage}
                 disabled={currentPage === 1}
               >
                 Prev
               </button>
-              <span className="text-white mx-2">
+              <span className="text-white">
                 Page {currentPage} of {totalPages}
               </span>
               <button
-                className="btn btn-danger"
+                className="btn btn-danger ms-2"
                 onClick={handleNextPage}
                 disabled={currentPage === totalPages}
               >

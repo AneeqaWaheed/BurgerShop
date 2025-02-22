@@ -143,11 +143,20 @@ const UpdateProduct = () => {
           <div className="col-md-3">
             <AdminMenu />
           </div>
-          <div className="col-md-9" style={{ overflowY: "auto" }}>
+          <div
+            className="col-lg-9 col-md-8 col-sm-12"
+            style={{
+              maxHeight: "80vh",
+              overflowY: "auto",
+            }}
+          >
             {" "}
             {/* Enable scrolling here */}
-            <h1 className="text-white">Update Product</h1>
-            <div className="m-1">
+            <h1 className="text-white text-center">Update Product</h1>
+            <div
+              className="m-1 bg-body-secondary p-4 rounded shadow"
+              // style={{ backgroundColor: "rgb(176, 98, 98)" }}
+            >
               <Select
                 placeholder="select a category"
                 showSearch
@@ -185,25 +194,29 @@ const UpdateProduct = () => {
                 </label>
               </div>
 
-              <div className="mb-3 text-center">
-                {imageUpload ? (
+              {/* <div className="mb-3 text-center"> */}
+              {imageUpload ? (
+                <div className="text-center mb-3">
                   <img
                     src={URL.createObjectURL(imageUpload)}
                     alt="Product Image"
                     height={"200px"}
                     className="img img-responsive"
                   />
-                ) : (
-                  image && (
+                </div>
+              ) : (
+                image && (
+                  <div className="text-center mb-3">
                     <img
                       src={image} // Use the existing image URL
                       alt="Product Image"
                       height={"200px"}
                       className="img img-responsive"
                     />
-                  )
-                )}
-              </div>
+                  </div>
+                )
+              )}
+              {/* </div> */}
 
               <div className="mb-3">
                 <input

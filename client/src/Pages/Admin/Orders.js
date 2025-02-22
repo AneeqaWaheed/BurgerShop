@@ -7,7 +7,7 @@ import axios from "axios";
 const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(10); // Number of products per page
+  const [productsPerPage] = useState(5); // Number of products per page
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -49,7 +49,7 @@ const AdminOrders = () => {
   console.log("orders", orders);
 
   return (
-    <GeneralLayout title={"DashBoard - All orders"}>
+    <GeneralLayout title={"DashBoard - All orders"} minHeight={"100%"}>
       <div
         className="container-fluid"
         style={{
@@ -70,56 +70,65 @@ const AdminOrders = () => {
             backgroundColor: "rgba(0, 0, 0, 0.7)",
             height: "100vh",
             width: "100%",
-            padding: "50px",
             margin: "0px",
+            padding: "20px",
+            overflowY: "auto",
           }}
         >
-          <div className="col-md-3">
+          {/* Sidebar for Admin Menu */}
+          <div className="col-lg-3 col-md-4 mb-4">
             <AdminMenu />
           </div>
-          <div className="col-md-9 rounded">
-            <h1 className="text-center text-white">Orders</h1>
-            <table className="table w-100 table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">User Name</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Product Name</th>
-                  <th scope="col">Product Price</th>
-                  <th scope="col">Quantity</th>
-                  <th scope="col">Total Amount</th>
-                  <th scope="col">Status</th>
-                </tr>
-              </thead>
 
-              <tbody>
-                {currentProducts.map((order) => (
-                  <tr key={order?._id}>
-                    <td>{order?.userId?.firstName}</td>
-                    <td>{order?.userId?.email}</td>
-                    <td>{order?.items?.[0]?.productId?.name}</td>
-                    <td>{order?.items?.[0]?.productId?.price}</td>
-                    <td>{order?.items?.[0]?.quantity}</td>
-                    <td>{order?.totalAmount}</td>
-                    <td>{order?.status}</td>
+          {/* Main Content */}
+          <div className="col-lg-9 col-md-8 rounded">
+            <h1 className="text-center text-white">Orders</h1>
+
+            {/* Responsive Table */}
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered text-center">
+                <thead className="table-dark">
+                  <tr>
+                    <th scope="col">User Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Product Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total Amount</th>
+                    <th scope="col">Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+
+                <tbody>
+                  {currentProducts.map((order) => (
+                    <tr key={order?._id}>
+                      <td>{order?.userId?.firstName}</td>
+                      <td>{order?.userId?.email}</td>
+                      <td>{order?.items?.[0]?.productId?.name}</td>
+                      <td>${order?.items?.[0]?.productId?.price}</td>
+                      <td>{order?.items?.[0]?.quantity}</td>
+                      <td>${order?.totalAmount}</td>
+                      <td>{order?.status}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
             {/* Pagination Controls */}
-            <div className="pagination-controls d-flex align-items-baseline justify-content-end">
+            <div className="pagination-controls d-flex align-items-center justify-content-center mt-3">
               <button
-                className="btn btn-danger"
+                className="btn btn-danger me-2"
                 onClick={handlePreviousPage}
                 disabled={currentPage === 1}
               >
                 Prev
               </button>
-              <span className="text-white mx-2">
+              <span className="text-white">
                 Page {currentPage} of {totalPages}
               </span>
               <button
-                className="btn btn-danger"
+                className="btn btn-danger ms-2"
                 onClick={handleNextPage}
                 disabled={currentPage === totalPages}
               >
